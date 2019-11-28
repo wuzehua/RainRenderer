@@ -51,7 +51,7 @@ namespace rzpbr{
                 }
 
                 if(U[i][i] == 0)
-                    return m;
+                    return matrix;
 
                 L[j][i] = (m.data[j][i] - sum) / U[i][i];
             }
