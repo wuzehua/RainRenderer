@@ -271,6 +271,11 @@ namespace rzpbr {
             return os;
         }
 
+        const T& operator[](int index) const {
+            assert(index >= 0 && index < 3);
+            return data[index];
+        }
+
         T& operator[](int index){
             assert(index >= 0 && index < 3);
             return data[index];
@@ -293,7 +298,8 @@ namespace rzpbr {
 
         static Vector3<T> normalize(const Vector3<T>& v){
             auto vec = v;
-            return vec.normalize();
+            vec.normalize();
+            return vec;
         }
 
         static Vector3<T> cross(const Vector3<T>& a, const Vector3<T>& b){

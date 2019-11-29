@@ -179,10 +179,11 @@ namespace rzpbr{
         }
 
         bool insersectP(const Ray& ray, Float* hitt0 = nullptr, Float* hitt1 = nullptr) const{
+            return true;
         }
 
         inline bool insersectP(const Ray& ray, const Vector3f& invDir, const int dirIsNeg[3]) const{
-
+            return true;
         }
 
 

@@ -78,6 +78,26 @@ namespace rzpbr{
             return os;
         }
 
+        bool operator==(const Matrix& m) const {
+            auto result = true;
+            for(auto i = 0;i < 4;i++){
+                for(auto j = 0; j < 4;j++){
+                    if(data[i][j] != m.data[i][j]){
+                        result = false;
+                        break;
+                    }
+                }
+
+                if(!result)
+                    break;
+            }
+
+            return result;
+        }
+
+        bool operator!=(const Matrix& m) const {
+            return !(*this == m);
+        }
 
 
         void set(int i, int j, Float value){
@@ -93,8 +113,95 @@ namespace rzpbr{
     Matrix inverse(const Matrix& m);
 
     class Transform{
+    public:
+        Transform(){}
+        Transform(const Matrix& m):m(m), invM(inverse(m)){}
+        Transform(const Matrix& m, const Matrix& invM):m(m),invM(invM){}
 
+        friend Transform inverse(const Transform& t){
+            return Transform(t.invM, t.m);
+        }
+
+        friend Transform transpose(const Transform& t){
+            return Transform(transpose(t.m), transpose(t.invM));
+        }
+
+
+        bool operator==(const Transform& t) const {
+            return m == t.m && invM == t.invM;
+        }
+
+        bool operator!=(const Transform& t) const {
+            return !(*this == t);
+        }
+
+        friend Transform operator*(const Transform& t1, const Transform& t2){
+            return Transform(t1.m * t2.m, t2.invM * t1.invM);
+        }
+
+        template <typename T>
+        Vector3<T> transformPosition(const Vector3<T>& p) const {
+            T v[4] = {0,0,0,0};
+            for(auto i = 0;i < 4;i++){
+                for(auto j = 0;j < 4;j++){
+                    if(j == 3){
+                        v[i] += m.data[i][j];
+                    } else{
+                        v[i] += m.data[i][j] * p[j];
+                    }
+                }
+            }
+
+            auto result = Vector3<T>(v[0],v[1],v[2]);
+            if(v[3] != 0 && v[3] != 1)
+                result /= v[3];
+
+            return result;
+        }
+
+
+        template <typename T>
+        Vector3<T> transformDirection(const Vector3<T>& d) const {
+            T v[3] = {0,0,0};
+            for(auto i = 0;i < 3;i++){
+                for(auto j = 0;j < 3;j++){
+                    v[i] += m.data[i][j] * d[j];
+                }
+            }
+
+            return Vector3<T>(v[0],v[1],v[2]);
+        }
+
+        template <typename T>
+        Vector3<T> transformNormal(const Vector3<T>& n) const {
+            T v[3] = {0,0,0};
+            for(auto i = 0;i < 3;i++){
+                for(auto j = 0;j < 3;j++){
+                    v[i] += invM.data[j][i] * n[j];
+                }
+            }
+
+            return Vector3<T>(v[0],v[1],v[2]);
+        }
+
+        const Matrix& matrix(){ return m;}
+        const Matrix& invTMatrix() { return invM;}
+
+
+    private:
+        Matrix m,invM;
+        friend struct Quaternion;
+        friend class AnimatedTransform;
     };
+
+    Transform translate(const Vector3f& d);
+    Transform scale(const Vector3f& s);
+    Transform rotateX(const Float& theta);
+    Transform rotateY(const Float& theta);
+    Transform rotateZ(const Float& theta);
+    Transform rotateAxis(const Float& theta, const Vector3f& axis);
+
+    class AnimatedTransform{};
 
 }
 

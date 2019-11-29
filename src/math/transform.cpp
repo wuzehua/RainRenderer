@@ -97,4 +97,89 @@ namespace rzpbr{
 
         return matrix;
     }
+
+    Transform translate(const Vector3f& d){
+        Matrix m(1.0);
+        auto invM = Matrix(1.0);
+        for(auto i = 0;i < 3;i++){
+            m.data[i][3] = d[i];
+            invM.data[i][3] = -d[i];
+        }
+
+        return Transform(m,invM);
+    }
+
+    Transform scale(const Vector3f& s){
+        Matrix m(1.0);
+        auto invM = Matrix(1.0);
+        for(auto i = 0;i < 3;i++){
+            assert(s[i] != 0);
+            m.data[i][i] = s[i];
+            invM.data[i][i] = 1 / s[i];
+        }
+
+        return Transform(m,invM);
+    }
+
+    Transform rotateX(const Float& theta){
+        Matrix m(1.0);
+        auto sint = std::sin(theta);
+        auto cost = std::cos(theta);
+        m.data[1][1] = cost;
+        m.data[1][2] = -sint;
+        m.data[2][1] = sint;
+        m.data[2][2] = cost;
+
+        return Transform(m, transpose(m));
+    }
+
+    Transform rotateY(const Float& theta){
+        Matrix m(1.0);
+        auto sint = std::sin(theta);
+        auto cost = std::cos(theta);
+        m.data[0][0] = cost;
+        m.data[2][0] = -sint;
+        m.data[0][2] = sint;
+        m.data[2][2] = cost;
+
+        return Transform(m, transpose(m));
+    }
+
+    Transform rotateZ(const Float& theta){
+        Matrix m(1.0);
+        auto sint = std::sin(theta);
+        auto cost = std::cos(theta);
+        m.data[0][0] = cost;
+        m.data[0][1] = -sint;
+        m.data[1][0] = sint;
+        m.data[1][1] = cost;
+
+        return Transform(m, transpose(m));
+    }
+
+    Transform rotateAxis(const Float& theta, const Vector3f& axis){
+        auto a = Vector3f::normalize(axis);
+        auto sint = std::sin(theta);
+        auto cost = std::cos(theta);
+        Matrix m(1.0);
+
+        m.data[0][0] = a.x() * a.x() + (1 - a.x() * a.x()) * cost;
+        m.data[0][1] = a.x() * a.y() * (1 - cost) - a.z() * sint;
+        m.data[0][2] = a.x() * a.z() * (1 - cost) + a.y() * sint;
+        m.data[0][3] = 0;
+
+
+        m.data[1][0] = a.x() * a.y() * (1 - cost) + a.z() * sint;
+        m.data[1][1] = a.y() * a.y() + (1 - a.y() * a.y()) * cost;
+        m.data[1][2] = a.y() * a.z() * (1 - cost) - a.x() * sint;
+        m.data[1][3] = 0;
+
+        m.data[2][0] = a.x() * a.z() * (1 - cost) - a.y() * sint;
+        m.data[2][1] = a.y() * a.z() * (1 - cost) + a.x() * sint;
+        m.data[2][2] = a.z() * a.z() + (1 - a.z() * a.z()) * cost;
+        m.data[2][3] = 0;
+
+        return Transform(m, transpose(m));
+
+    }
 }

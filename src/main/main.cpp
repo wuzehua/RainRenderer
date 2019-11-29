@@ -20,7 +20,10 @@ int main() {
 
     std::cout<<ai<<std::endl;
 
+
     auto re = ai * a;
+
+    std::cout<<rzpbr::transpose(ai)<<std::endl;
 
     std::cout<<re<<std::endl;
 
