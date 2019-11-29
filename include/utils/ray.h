@@ -45,7 +45,7 @@ namespace rzpbr {
             hasDifferential = false;
         }
         RayDifferential(const Ray& ray): Ray(ray){
-            hasDifferential = false
+            hasDifferential = false;
         }
 
         void scaleDifferentials(Float scale){

@@ -189,11 +189,17 @@ namespace rzpbr{
         Vector3<T> minP,maxP;
     };
 
+    typedef Bound2<Float> Bound2f;
+    typedef Bound2<int> Bound2i;
+    typedef Bound3<Float> Bound3f;
+    typedef Bound3<int> Bound3i;
+
     template <typename T>
     bool inside(const Vector2<T>& p, const Bound2<T>& b){
         return (p.x() >= b.minP.x() && p.x() <= b.maxP.x()
         && p.y() >= b.minP.y() && p.y() <= b.maxP.y());
     }
+
 
     template <typename T>
     bool inside(const Vector3<T>& p, const Bound3<T>& b){
@@ -202,10 +208,18 @@ namespace rzpbr{
                 &&p.z() >= b.minP.z() && p.z() <= b.maxP.z());
     }
 
-    typedef Bound2<Float> Bound2f;
-    typedef Bound2<int> Bound2i;
-    typedef Bound3<Float> Bound3f;
-    typedef Bound3<int> Bound3i;
+    template <typename T>
+    bool insideExclusive(const Vector2<T>& p, const Bound2<T>& b){
+        return (p.x() > b.minP.x() && p.x() < b.maxP.x()
+                && p.y() > b.minP.y() && p.y() < b.maxP.y());
+    }
+
+    template <typename T>
+    bool insideExclusive(const Vector3<T>& p, const Bound3<T>& b){
+        return (p.x() > b.minP.x() && p.x() < b.maxP.x()
+                && p.y() > b.minP.y() && p.y() < b.maxP.y()
+                &&p.z() > b.minP.z() && p.z() < b.maxP.z());
+    }
 
     template <typename T>
     Bound3<T> unionBound(const Bound3<T>& b, const Vector3<T>& p){
@@ -215,6 +229,70 @@ namespace rzpbr{
                 );
     }
 
+    template <typename T>
+    Bound3<T> unionBound(const Bound3<T>& b1, const Bound3<T>& b2){
+        return Bound3<T>(
+                Vector3<T>(std::min(b1.minP.x(), b2.minP.x()),std::min(b1.minP.y(), b2.minP.y()), std::min(b1.minP.z(), b2.minP.z())),
+                Vector3<T>(std::max(b1.maxP.x(), b2.maxP.x()),std::max(b1.maxP.y(), b2.maxP.y()), std::max(b1.maxP.z(), b2.maxP.z()))
+        );
+    }
+
+    template <typename T>
+    bool overlap(const Bound3<T>& b1, const Bound3<T>& b2){
+        bool x = (b1.maxP.x() >= b2.minP.x()) && (b1.minP.x() <= b2.maxP.x());
+        bool y = (b1.maxP.y() >= b2.minP.y()) && (b1.minP.y() <= b2.maxP.y());
+        bool z = (b1.maxP.z() >= b2.minP.z()) && (b1.minP.z() <= b2.maxP.z());
+        return (x && y && z);
+    }
+
+    template <typename T>
+    Bound3<T> intersect(const Bound3<T>& b1, const Bound3<T>& b2){
+        return Bound3<T>(
+                Vector3<T>(std::max(b1.minP.x(), b2.minP.x()),std::max(b1.minP.y(), b2.minP.y()), std::max(b1.minP.z(), b2.minP.z())),
+                Vector3<T>(std::min(b1.maxP.x(), b2.maxP.x()),std::min(b1.maxP.y(), b2.maxP.y()), std::min(b1.maxP.z(), b2.maxP.z()))
+        );
+    }
+
+
+    class Bound2iIterator: public std::forward_iterator_tag{
+    public:
+        Bound2iIterator(const Bound2i& b, const Point2i& p):p(p),bound(&b){}
+
+        Bound2iIterator operator++(){
+            advance();
+            return *this;
+        }
+
+        Bound2iIterator operator++(int){
+            Bound2iIterator old = *this;
+            advance();
+            return old;
+        }
+
+        bool operator==(const Bound2iIterator& b) const {
+            return p == b.p && bound == b.bound;
+        }
+
+        bool operator!=(const Bound2iIterator& b) const {
+            return p != b.p || bound != b.bound;
+        }
+
+        Point2i operator*(){ return p;}
+
+    private:
+
+        void advance(){
+            ++p[0];
+            if(p.x() == bound->maxP.x()){
+                p[0] = bound->minP.x();
+                ++p[1];
+            }
+        }
+
+        Point2i p;
+        std::shared_ptr<const Bound2i> bound;
+
+    };
 
 }
 

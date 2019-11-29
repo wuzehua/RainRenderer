@@ -16,7 +16,7 @@ int main() {
 
     std::cout<<a<<std::endl;
 
-    auto ai = rzpbr::Matrix::inverse(a);
+    auto ai = rzpbr::inverse(a);
 
     std::cout<<ai<<std::endl;
 

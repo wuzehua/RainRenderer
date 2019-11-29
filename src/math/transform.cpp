@@ -7,7 +7,7 @@
 
 namespace rzpbr{
 
-    Matrix Matrix::transpose(const Matrix& m){
+    Matrix transpose(const Matrix& m){
         auto matrix = Matrix(0);
         for(auto i = 0;i < 4;i++){
             for(auto j = 0;j < 4;j++){
@@ -17,7 +17,7 @@ namespace rzpbr{
         return matrix;
     }
 
-    Matrix Matrix::inverse(const Matrix& m){
+    Matrix inverse(const Matrix& m){
         //LU
         Float L[4][4],U[4][4];
         Float L_inverse[4][4], U_inverse[4][4];

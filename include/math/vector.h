@@ -23,7 +23,7 @@ namespace rzpbr {
     class Vector2 {
 
     public:
-        Vector2() { data[0] = data[1] = 0; }
+        //Vector2() { data[0] = data[1] = 0; }
 
         Vector2(const T &x = 0, const T &y = 0) {
             data[0] = x;
@@ -173,7 +173,7 @@ namespace rzpbr {
 
     public:
 
-        Vector3(){ data[0] = data[1] = data[2] = 0;}
+        //Vector3(){ data[0] = data[1] = data[2] = 0;}
         Vector3(const T& x = 0, const T& y = 0, const T& z = 0){
             data[0] = x;
             data[1] = y;
@@ -328,9 +328,7 @@ namespace rzpbr {
     typedef Vector3<Float> Normal3f;
     typedef Vector3<int> Normal3i;
 
-    Float lerp(const Float& t, const Float& v0, const Float& v1){
-        return (1 - t) * v0 + t * v1;
-    }
+    Float lerp(const Float& t, const Float& v0, const Float& v1);
 
     template <typename T>
     Vector2<T> lerp(const Float& t, const Vector2<T>& p0, const Vector2<T>& p1){

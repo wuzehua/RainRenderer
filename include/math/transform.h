@@ -11,6 +11,12 @@
 
 namespace rzpbr{
 
+    struct Quaternion{
+
+    };
+
+
+
     class Matrix{
 
     public:
@@ -26,7 +32,6 @@ namespace rzpbr{
                 }
             }
         }
-
 
 
 
@@ -73,9 +78,6 @@ namespace rzpbr{
             return os;
         }
 
-        static Matrix transpose(const Matrix& m);
-        static Matrix inverse(const Matrix& m);
-
 
 
         void set(int i, int j, Float value){
@@ -84,10 +86,16 @@ namespace rzpbr{
         }
 
 
-
-    private:
         Float data[4][4];
     };
+
+    Matrix transpose(const Matrix& m);
+    Matrix inverse(const Matrix& m);
+
+    class Transform{
+
+    };
+
 }
 
 #endif //RAINRENDERER_TRANSFORM_H
