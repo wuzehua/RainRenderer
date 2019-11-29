@@ -288,6 +288,12 @@ namespace rzpbr{
         }
     }
 
+
+    void intervalFindZeros(Float c1, Float c2, Float c3, Float c4, Float c5,
+                           Float theta, Interval tInterval, Float *zeros,
+                           int *zeroCount, int depth){}
+
+
     /*code from pbrt*/
     AnimatedTransform::AnimatedTransform(const Transform *startTransform,
                                          Float startTime,
