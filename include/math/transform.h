@@ -6,6 +6,7 @@
 #define RAINRENDERER_TRANSFORM_H
 
 #include <cstring>
+#include <utils/bound.h>
 #include <math/vector.h>
 
 namespace rzpbr{

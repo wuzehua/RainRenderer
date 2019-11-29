@@ -36,6 +36,12 @@ namespace rzpbr {
             return *this;
         }
 
+
+        template <typename U>
+        explicit operator Vector2<U>() const {
+            return Vector2<U>((U)data[0],(U)data[1]);
+        }
+
         friend Vector2<T> operator+(const Vector2<T> &v1, const Vector2<T> &v2) {
             return Vector2(v1.data[0] + v2.data[0], v1.data[1] + v2.data[1]);
         }
@@ -139,16 +145,16 @@ namespace rzpbr {
             return result.normalize();
         }
 
-        Float lengthPow2(){ return data[0] * data[0] + data[1] * data[1];}
-        Float length(){ return std::sqrt(lengthPow2());}
+        Float lengthPow2() const { return data[0] * data[0] + data[1] * data[1];}
+        Float length() const { return std::sqrt(lengthPow2());}
 
         //getter
-        const T &x() { return data[0]; }
-        const T &y() { return data[1]; }
+        inline const T &x() const { return data[0]; }
+        inline const T &y() const { return data[1]; }
 
         //setter
-        void setX(const T &x) { data[0] = x; }
-        void setY(const T &y) { data[1] = y; }
+        inline void setX(const T &x) { data[0] = x; }
+        inline void setY(const T &y) { data[1] = y; }
 
 
     private:
@@ -174,6 +180,10 @@ namespace rzpbr {
             data[2] = z;
         }
 
+        template <typename U>
+        explicit operator Vector3<U>() const {
+            return Vector3<U>((U)data[0],(U)data[1],(U)data[2]);
+        }
 
         friend Vector3<T> operator+(const Vector3<T>& v1, const Vector3<T>& v2){
             return Vector3(v1.data[0] + v2.data[0], v1.data[1] + v2.data[1], v1.data[2] + v2.data[2]);
@@ -293,18 +303,18 @@ namespace rzpbr {
             return Vector3(x,y,z);
         }
 
-        Float lengthPow2(){ return data[0] * data[0] + data[1] * data[1] + data[2] * data[2];}
-        Float length() { return std::sqrt(lengthPow2());}
+        Float lengthPow2() const { return data[0] * data[0] + data[1] * data[1] + data[2] * data[2];}
+        Float length() const { return std::sqrt(lengthPow2());}
 
         //getter
-        const T& x(){ return data[0];}
-        const T& y(){ return data[1];}
-        const T& z(){ return data[3];}
+        inline const T& x() const { return data[0];}
+        inline const T& y() const { return data[1];}
+        inline const T& z() const { return data[3];}
 
         //setter
-        void setX(const T& x){ data[0] = x;}
-        void setY(const T& y){ data[1] = y;}
-        void setZ(const T& z){ data[2] = z;}
+        inline void setX(const T& x){ data[0] = x;}
+        inline void setY(const T& y){ data[1] = y;}
+        inline void setZ(const T& z){ data[2] = z;}
 
 
     private:
@@ -317,6 +327,32 @@ namespace rzpbr {
     typedef Vector3<int> Vector3i;
     typedef Vector3<Float> Normal3f;
     typedef Vector3<int> Normal3i;
+
+    Float lerp(const Float& t, const Float& v0, const Float& v1){
+        return (1 - t) * v0 + t * v1;
+    }
+
+    template <typename T>
+    Vector2<T> lerp(const Float& t, const Vector2<T>& p0, const Vector2<T>& p1){
+        return (1 - t) * p0 + t * p1;
+    }
+
+    template <typename T>
+    Vector3<T> lerp(const Float& t, const Vector3<T>& p0, const Vector3<T>& p1){
+        return (1 - t) * p0 + t * p1;
+    }
+
+    template <typename T>
+    T distance(const Vector2<T>& v0, const Vector2<T>& v1){
+        auto l = v0 - v1;
+        return l.length();
+    }
+
+    template <typename T>
+    T distance(const Vector3<T>& v0, const Vector3<T>& v1){
+        auto l = v0 - v1;
+        return l.length();
+    }
 
 }
 
