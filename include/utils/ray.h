@@ -32,7 +32,7 @@ namespace rzpbr {
         Vector3f direction;
         mutable Float tMax;
         Float time;
-        std::shared_ptr<const Medium> medium;
+        const Medium* medium;
     };
 
     class RayDifferential: public Ray{

@@ -282,7 +282,7 @@ namespace rzpbr {
         }
 
 
-        friend T dot(const Vector3<T>& v1, const Vector3<T>& v2){
+        static T dot(const Vector3<T>& v1, const Vector3<T>& v2){
             return v1.data[0] * v2.data[0] + v1.data[1] * v2.data[1] + v1.data[2] * v2.data[2];
         }
 
@@ -356,6 +356,11 @@ namespace rzpbr {
     T distance(const Vector3<T>& v0, const Vector3<T>& v1){
         auto l = v0 - v1;
         return l.length();
+    }
+
+    template <typename T>
+    Vector3<T> abs(const Vector3<T>& v0){
+        return Vector3<T>(std::abs(v0[0]),std::abs(v0[1]),std::abs(v0[2]));
     }
 
 }
