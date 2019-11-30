@@ -6,6 +6,7 @@
 #define RAINRENDERER_TRANSFORM_H
 
 #include <cstring>
+
 #include <utils/bound.h>
 #include <math/vector.h>
 
@@ -126,7 +127,7 @@ namespace rzpbr{
         }
 
 
-        Bound3f operator()(const Bound3f& b) const {}
+        Bound3f operator()(const Bound3f& b) const { return Bound3f();}
 
         bool operator==(const Transform& t) const {
             return m == t.m && invM == t.invM;
@@ -175,7 +176,7 @@ namespace rzpbr{
                          std::abs(m.data[1][2] * z) + std::abs(m.data[1][3]));
             T zAbsSum = (std::abs(m.data[2][0] * x) + std::abs(m.data[2][1] * y) +
                          std::abs(m.data[2][2] * z) + std::abs(m.data[2][3]));
-            *error = gamma(3) * Vector3<T>(xAbsSum, yAbsSum, zAbsSum);
+            *error = lgamma(3) * Vector3<T>(xAbsSum, yAbsSum, zAbsSum);
 
             return this->transformPosition(p);
         }
@@ -238,15 +239,7 @@ namespace rzpbr{
 
 
 
-    class Interval{
-    public:
-        Interval(Float v0, Float v1){}
-    };
 
-
-    void intervalFindZeros(Float c1, Float c2, Float c3, Float c4, Float c5,
-                           Float theta, Interval tInterval, Float *zeros,
-                           int *zeroCount, int depth = 8);
 
 
 

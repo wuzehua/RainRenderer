@@ -3,7 +3,6 @@
 //
 
 #include <math/transform.h>
-#include <math/animatedtransform.h>
 #include <cstring>
 
 namespace rzpbr{
@@ -218,17 +217,6 @@ namespace rzpbr{
 
         return Transform(inverse(m),m);
     }
-
-
-
-
-
-    void intervalFindZeros(Float c1, Float c2, Float c3, Float c4, Float c5,
-                           Float theta, Interval tInterval, Float *zeros,
-                           int *zeroCount, int depth){}
-
-
-
 
 
 }

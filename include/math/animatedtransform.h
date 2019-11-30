@@ -10,6 +10,17 @@
 
 namespace rzpbr{
 
+    //TODO: AnimatedTransform NOT COMPLETE
+    class Interval{
+    public:
+        Interval(Float v0, Float v1){}
+    };
+
+    //TODO: Function NOT COMPLETE
+    void intervalFindZeros(Float c1, Float c2, Float c3, Float c4, Float c5,
+                           Float theta, Interval tInterval, Float *zeros,
+                           int *zeroCount, int depth = 8);
+
     // AnimatedTransform Declarations
     /*code from pbrt*/
     class AnimatedTransform {

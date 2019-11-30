@@ -2,6 +2,7 @@
 // Created by rainzhong on 2019/11/30.
 //
 
+#include <algorithm>
 #include <math/quaternion.h>
 
 namespace rzpbr{
