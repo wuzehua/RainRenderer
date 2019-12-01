@@ -5,9 +5,18 @@
 #ifndef RAINRENDERER_MEDIUM_H
 #define RAINRENDERER_MEDIUM_H
 
-class Medium{
+namespace rzpbr {
 
-};
+
+    class Medium {
+
+    };
+
+    struct MediumInterface{
+        const Medium* inside;
+        const Medium* outside;
+    };
+}
 
 
 #endif //RAINRENDERER_MEDIUM_H

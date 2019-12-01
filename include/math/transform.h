@@ -13,6 +13,10 @@
 
 namespace rzpbr{
 
+    static constexpr Float machineEpsilon = std::numeric_limits<Float>::epsilon() * 0.5;
+    inline constexpr Float gamma(int n){
+        return (n * machineEpsilon) / (1 - n * machineEpsilon);
+    }
 
     class Matrix{
 
@@ -176,7 +180,7 @@ namespace rzpbr{
                          std::abs(m.data[1][2] * z) + std::abs(m.data[1][3]));
             T zAbsSum = (std::abs(m.data[2][0] * x) + std::abs(m.data[2][1] * y) +
                          std::abs(m.data[2][2] * z) + std::abs(m.data[2][3]));
-            *error = lgamma(3) * Vector3<T>(xAbsSum, yAbsSum, zAbsSum);
+            *error = gamma(3) * Vector3<T>(xAbsSum, yAbsSum, zAbsSum);
 
             return this->transformPosition(p);
         }
@@ -223,20 +227,6 @@ namespace rzpbr{
     Transform rotateZ(const Float& theta);
     Transform rotateAxis(const Float& theta, const Vector3f& axis);
     Transform lookAt(const Vector3f& pos, const Vector3f& look, const Vector3f& up);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
